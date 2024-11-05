@@ -1,4 +1,3 @@
-
 # Framework (Nest.js)
 
 NestJS es un framework de Node.js que se utiliza para construir aplicaciones del lado del servidor eficientes, escalables y mantenibles. Está basado en TypeScript (aunque también puede usarse con JavaScript) y combina elementos de programación orientada a objetos (POO), programación funcional y programación reactiva. NestJS se destaca por su estructura modular y su enfoque en mejorar la productividad del desarrollo de aplicaciones backend.
@@ -203,6 +202,151 @@ export class CreateUserDto {
   email: string;
 }
 ```
+### MIDDLEWARES
+
+En NestJS, los **middlewares** son funciones que se ejecutan antes de que una solicitud llegue a los controladores. Su objetivo es interceptar y manipular las solicitudes o respuestas, lo que los hace útiles para tareas como el registro de actividad (logging), autenticación, modificación de solicitudes, entre otros.
+
+**¿Cuándo Usar un Middleware?**
+
+Algunos casos comunes donde un middleware es útil:
+
+-   **Registro de solicitudes (logging)**: Registrar cada solicitud que llega al servidor.
+-   **Autenticación**: Verificar tokens o credenciales básicas antes de pasar la solicitud al guard o al controlador.
+-   **Modificación de solicitudes**: Agregar o modificar datos en el objeto `request` antes de que llegue al controlador.
+-   **Validación de datos**: Validar datos de la solicitud en un nivel básico.
+**
+
+**Middleware vs. Guard**
+
+-   **Middleware**: Procesa la solicitud a nivel de aplicación o enrutamiento antes de llegar al controlador.
+-   **Guard**: Procesa la solicitud en el controlador, para determinar la autorización o autenticación del usuario. Se usa para lógica más específica de autorización.
+
+Este middleware registra en la consola el método HTTP y la URL de cada solicitud antes de continuar al controlador.
+```typescript
+@Injectable()
+export class LoggerMiddleware implements NestMiddleware {
+  use(req: Request, res: Response, next: NextFunction) {
+    console.log(`Request...`);
+    console.log(`Method: ${req.method}, URL: ${req.url}`);
+    next(); // Llama a la siguiente función en el ciclo de solicitud
+  }
+}
+
+```
+Para utilizar un middleware, debes aplicarlo en un módulo específico. Puedes hacerlo dentro del módulo usando el método `configure` en la clase de módulo y `apply` para asociar el middleware a rutas específicas.
+```typescript
+@Module({
+  controllers: [UserController],
+})
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(LoggerMiddleware) // Aplica el middleware
+      .forRoutes(UserController); // Específica las rutas
+  }
+}
+```
+
+
+### GUARDS
+
+En NestJS, los **guards** son clases especiales que controlan el acceso a rutas o recursos específicos en función de ciertas condiciones o reglas de autorización. Son útiles para implementar la lógica de autorización y autenticación de una manera centralizada y reutilizable.
+
+Un guard es una clase que implementa la interfaz `CanActivate`, la cual define un método `canActivate` que se ejecuta antes de que se procese una solicitud en un controlador o ruta específica. Basado en la lógica dentro de `canActivate`, el guard decide si permite (retornando `true`) o bloquea (retornando `false`) el acceso a la ruta.
+
+```typescript
+@Injectable()
+export class AuthJWTGuard extends AuthGuard('jwt') {
+
+	constructor(private reflector: Reflector) {
+		super();
+	}
+	canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
+		const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+			context.getHandler(),
+			context.getClass(),
+		]);
+		if (isPublic) {
+			return true;
+		}
+		// Si no es pública, delega a la lógica de Passport para validar el token JWT(Strategy)
+		return super.canActivate(context);
+	}
+}
+
+```
+
+
+
+**Guards Globales**
+Puedes registrar un guard a nivel de aplicación, haciendo que se ejecute para cada solicitud entrante.
+```typescript
+@Module({
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+  ],
+})
+export class AppModule {}
+```
+ **Aplicar un Guard a una Ruta**
+
+Para usar un guard, puedes aplicarlo a nivel de controlador o de ruta específica usando el decorador `@UseGuards`.
+```typescript
+@Controller('users')
+export class UserController {
+  @Get()
+  @UseGuards(AuthGuard)
+  findAll() {
+    return 'Esta ruta está protegida por un guard.';
+  }
+}
+
+```
+
+
+### PIPES
+
+En NestJS, un **pipe** es una clase que implementa una lógica específica de transformación o validación. Se utiliza principalmente para procesar, transformar y validar datos antes de que lleguen a un controlador o un servicio.
+
+ Principales usos de los Pipes en NestJS
+
+1.  **Transformación**: Convierte datos entrantes al formato que necesitas. Por ejemplo, transformar un parámetro de ruta de tipo `string` a un `number`.
+    
+2.  **Validación**: Verifica si los datos cumplen ciertos criterios y lanza una excepción si no lo hacen. Esto ayuda a mantener la lógica de validación centralizada y organizada.
+
+
+Uno de los pipes más comunes es `ParseIntPipe`, que convierte automáticamente un parámetro de tipo `string` en `number`. Si el valor no puede convertirse a un número, el pipe lanza una excepción.
+```typescript
+@Get(':id') async findOne(@Param('id', ParseIntPipe) id: number) { 
+// Aquí, `id` ya es un `number`, gracias a `ParseIntPipe`
+}
+
+```
+#### Pipes Personalizados
+
+NestJS permite crear pipes personalizados para implementar una lógica de validación o transformación específica que no esté cubierta por los pipes incorporados. Estos pipes personalizados deben implementar la interfaz `PipeTransform` y definir el método `transform`, donde se coloca la lógica de procesamiento
+```typescript
+@Injectable()
+export class ParseBooleanPipe implements PipeTransform {
+  transform(value: string): boolean {
+    console.log('Valor recibido:', value); // Imprime el valor recibido
+    if (value === 'true') return true;
+    if (value === 'false') return false;
+    throw new BadRequestException('Validation failed');
+  }
+}
+
+@Get(':active')
+async findActive(@Param('active', ParseBooleanPipe) active: boolean) {
+  // `active` ahora es un booleano en lugar de un string
+}
+```
+
+
+
 
 ### Automapper 
 AutoMapper es una biblioteca que facilita la asignación de propiedades entre diferentes objetos, como DTOs y entidades de base de datos. En NestJS, puedes utilizar AutoMapper para simplificar la transformación de datos y mejorar la mantenibilidad del código
@@ -258,3 +402,5 @@ async validate(payload: any) {
 })
 
 ```
+
+
