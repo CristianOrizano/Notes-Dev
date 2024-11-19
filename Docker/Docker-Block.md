@@ -215,30 +215,30 @@ En Docker, una red permite que los contenedores se comuniquen entre sí y con ot
 
 Docker ofrece varios tipos de redes por defecto:
 
-### 1. **Bridge (red por defecto)**
+#### 1. **Bridge (red por defecto)**
 
 -   Es la red predeterminada para contenedores que no especifican otra red.
 -   Permite que los contenedores conectados a la misma red "bridge" se comuniquen entre sí.
 -   Cada contenedor obtiene su propia dirección IP privada en esta red.
 
-### 2. **Host**
+#### 2. **Host**
 
 -   Usa la pila de red del host directamente, es decir, no crea un entorno de red aislado para el contenedor.
 -   Los contenedores que usan la red "host" comparten el mismo stack de red que la máquina anfitriona, incluyendo la misma IP.
 -   Ideal para casos donde necesitas rendimiento máximo o acceso directo a los puertos de la máquina anfitriona.
 
-### 3. **None**
+#### 3. **None**
 
 -   Desactiva toda la red para el contenedor.
 -   Útil si deseas ejecutar contenedores completamente aislados, sin acceso a ninguna red.
 
-### 4. **Overlay**
+#### 4. **Overlay**
 
 -   Permite la comunicación entre múltiples hosts de Docker (usualmente en un clúster de Docker Swarm).
 -   Se utiliza para redes distribuidas, lo que permite conectar contenedores en diferentes hosts de Docker.
 -   Requiere un entorno de orquestación como Docker Swarm.
 
-### 5. **Macvlan**
+#### 5. **Macvlan**
 
 -   Permite a los contenedores tener sus propias direcciones MAC y comportarse como dispositivos físicos en la red.
 -   Útil para integrarse con redes físicas o si necesitas asignar una dirección IP específica de la red externa.
