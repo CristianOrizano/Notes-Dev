@@ -1,15 +1,18 @@
 # DOCKER
 
 **¿Qué es Docker?**
+
 Docker es una plataforma de software que permite crear, probar, implementar y ejecutar aplicaciones dentro de contenedores.
 
 **¿Qué es un contenedor?** 
+
 Un contenedor es una instancia en ejecución de una imagen de Docker. Es decir ejecuta la aplicacion en un entorno aislado y ligero de tal forma que funcione de la misma manera en diferentes entornos sin conflictos con el sistema operativo subyacente o con otras aplicaciones.
 
 con aislado se refiere aque el contenedor crea un espacio independiente dentro de tu máquina donde tu aplicación puede ejecutarse sin interferir con otras aplicaciones o procesos del sistema operativo.
 
 
 **¿Qué es una imagen?**
+
 Una imagen de Docker es un archivo inmutable que contiene el código de la aplicación, sus dependencias y configuraciones necesarias para ejecutar la aplicación dentro de un contenedor.
 
 El propósito de una imagen es servir como una **plantilla** para crear contenedores. Cada contenedor creado a partir de la imagen ejecutará la misma aplicación con las mismas dependencias, asegurando consistencia entre entornos.
