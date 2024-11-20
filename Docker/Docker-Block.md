@@ -207,9 +207,12 @@ En un `Dockerfile`, **`CMD`** y **`ENTRYPOINT`** son instrucciones utilizadas pa
 6.  **Búsquedas y Documentación:**
     -   Puedes buscar imágenes públicas disponibles, y cada imagen tiene su documentación asociada para que sepas cómo usarla.
 
-**Subir una imagen:** Después de construir una imagen localmente, puedes subirla a Docker Hub usando el comando `docker push`:
+**Subir la imagen a Docker Hub:**
+- Inicia sesión en Docker Hub:  `docker login`
+- Para poder subir la imagen a Docker Hub, necesitas etiquetarla con el nombre de tu usuario y el repositorio en Docker Hub. Usa el siguiente comando para agregar la etiqueta adecuada:  
+`docker tag my-backend cristianorizano/my-backend:1.0`
 
-- docker push mi_usuario/mi_imagen:etiqueta
+- Sube la imagen a Docker Hub : `docker push cristianorizano/my-backend:1.0`
 
 
 ### Redes en Docker
