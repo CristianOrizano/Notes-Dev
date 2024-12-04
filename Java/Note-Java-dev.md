@@ -244,3 +244,67 @@ En Spring (con JPA/Hibernate), el atributo `cascade = CascadeType.ALL` en una re
    Representa la combinación de todas las operaciones anteriores. Usar `CascadeType.ALL` equivale a aplicar todas las opciones mencionadas.
 
 
+###  Sucurity JWT  
+
+```typescript
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-api</artifactId>
+    <version>0.11.5</version>
+</dependency>
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-impl</artifactId>
+    <version>0.11.5</version>
+    <scope>runtime</scope>
+</dependency>
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-jackson</artifactId>
+    <version>0.11.5</version>
+    <scope>runtime</scope>
+</dependency>
+```
+
+
+ **Las dependencias de JWT (jjwt-api, jjwt-impl, jjwt-jackson) se encargan de:**
+ 
+Generar los tokens (al momento de autenticar).
+Validar tokens (para asegurarte de que son válidos y no han expirado).
+
+ **Spring Security, por su parte, permite integrar esos tokens en el flujo de seguridad:**
+
+-  Proteger rutas: Configuras qué endpoints requieren autenticación.
+- Filtros: Agregas un filtro para validar los JWT (como el filtro JwtRequestFilter).
+- Contexto de autenticación: Asocia los datos del token JWT (como el username) con el contexto de Spring Security para manejar permisos y roles.
+
+---
+#### 1. **Implementación de `UserDetailsService`**
+
+- **Objetivo**: Cargar los datos del usuario autenticado desde una fuente de datos (por ejemplo, base de datos) y proporcionar esa información a la aplicación para manejar la autenticación.
+- **Función**: Su propósito es cargar la información del usuario durante el proceso de autenticación, proporcionando una representación del usuario que incluye detalles como el nombre de usuario, la contraseña y los roles/autorizaciones que tiene..
+
+#### 2. **`JwtAuthenticationEntryPoint`**
+- **Objetivo**: Controlar los errores cuando un usuario no está autorizado o intenta acceder a recursos protegidos sin un token válido.
+- **Función**: En caso de que el usuario no esté autenticado o el token sea inválido, se devuelve una respuesta de error adecuada (generalmente HTTP 401).
+
+#### 3. **`JwtAuthenticationFilter`**
+- **Objetivo**: Interceptar todas las solicitudes entrantes para verificar si el JWT proporcionado es válido.
+- **Función**: Este filtro se encarga de extraer el token del encabezado `Authorization`, validar su firma y asegurarse de que el usuario esté autenticado.
+
+#### 4. **`JwtTokenProvider`**
+- **Objetivo**: Proporcionar los métodos necesarios para generar el token JWT y verificar su validez.
+- **Función**: Esta clase gestiona la creación del token (por ejemplo, incluyendo la firma y fecha de expiración) y la validación de su integridad, asegurando que el token sea legítimo y no haya sido manipulado.
+
+#### 5. **`SecurityConfig`**
+- **Objetivo**: Gestionar y controlar el proceso de autenticación y autorización en toda la aplicación.
+- **Función**: Define cómo se deben proteger las rutas de la aplicación, qué filtros deben aplicarse, y las configuraciones específicas relacionadas con la seguridad, como la habilitación de CSRF, los encabezados CORS y el uso de JWT en la autenticación.
+
+---
+
+
