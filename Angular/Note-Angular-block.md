@@ -13,7 +13,7 @@ NgModule es esencial para estructurar aplicaciones Angular. Organiza los compone
 
 - **providers**: Aquí se configuran los servicios que el módulo necesita. Esto incluye servicios que   deberían estar disponibles en toda la aplicación o solo para el módulo específico. Si tienes un   servicio UserService, lo declararías aquí para que esté disponible para los componentes de este     módulo.
 
-### COMPONENTES y CICLO DE VIDA
+### COMPONENTES y  CICLO DE VIDA
 
 **Componentes**:  Encapsulando la lógica y la presentación de la interfaz de usuario.
 
@@ -29,86 +29,9 @@ NgModule es esencial para estructurar aplicaciones Angular. Organiza los compone
 
 Ejemplo: Si tienes un componente HomeComponent y navegas a AboutComponent, el HomeComponent se destruye y el AboutComponent se crea. Angular llama al hook ngOnDestroy del componente antes de que se complete su destrucción. Este hook es el lugar adecuado para realizar tareas de limpieza, como cancelar suscripciones, liberar recursos y limpiar temporizadores.
 
-### Templates y Estilo
 
-- **Interpolación**: Permite insertar valores de propiedades del componente en el template.
-```typescript
-export class AppComponent {
-  title = 'Mi Aplicación Angular';
-  }
+### COMUNICACION COMPONENTES (Input - Output) 
 
-  <!-- app.component.html -->
-  <h1>{{ title }}</h1>
-
-```
-
-- **Directivas de atributo**: Como ngClass y ngStyle, que permiten aplicar estilos o clases  dinámicamente.
-```typescript
-export class AppComponent { 
-isActive = true;
- }
-```
-```typescript
-<div [ngClass]="{ 'active': isActive, 'inactive': !isActive }">
- This is a test div. 
- </div>
-```
-
-```typescript
-<div [ngStyle]="{ 'color': isActive ? 'green' : 'red', 'font-size': '20px' }">
- This is a test div. 
- </div>
-```
-
-### Data Binding 
-
- Data Binding en Angular permite sincronizar los datos entre el componente y la vista. Existen tres tipos principales:
- 
-- Property Binding: Se utiliza para enlazar una propiedad del componente a un atributo HTML. Se usa la sintaxis [attribute]="expression".
-
-```typescript
-   // app.component.ts
-   export class AppComponent {
-    imageUrl = 'https://example.com/image.jpg';
-  }
-
-  <img [src]="imageUrl" alt="Example Image">
-  ```
-  ```typescript
-  
-<div [class.active]="isActive">
-  Contenido
-</div>
-
-<div [class]="textoColor"> Contenido </div>
-  ```
-
-- Event Binding : Se utiliza para manejar eventos del usuario, como clics, cambios, etc. Se usa la sintaxis (event)="handler".
-
-```typescript
-  // app.component.ts
-   export class AppComponent {
-   onClick() {
-    alert('Button clicked!');
-   }
-  }
-  
-  <!-- app.component.html -->
-<button (click)="onClick()">Click Me</button>
-
-```
-- Two-Way Binding: Permite la sincronización bidireccional entre una propiedad del componente y un elemento del DOM. Se usa la sintaxis [(ngModel)]="property".
-```typescript
-     export class AppComponent {
-     name = '';
-     }
-
-<!-- app.component.html -->
-<input [(ngModel)]="name" placeholder="Enter your name">
-<p>Hello, {{ name }}!</p>
-```
-
-### Comunicación (Input - Output) 
 Permite que un componente padre pase datos al componente hijo y que el componente hijo emita eventos que el padre puede manejar.
 
 Métodos:
@@ -141,51 +64,97 @@ export class ComunicaComponent {
 
 ```
 
-### SERVICIOS 
+### DIRECTIVAS
 
-Un servicio en Angular es una clase que está diseñada para proporcionar funcionalidades que pueden ser compartidas a lo largo de diferentes componentes y otras partes de la aplicación. Los servicios son una forma de organizar y estructurar la lógica de negocio y de acceso a datos de manera modular y reutilizable.
+**Tipos de directivas en Angular**
 
+- **Directivas estructurales:** Estas directivas alteran el diseño del DOM al agregar o eliminar elementos   HTML. Utilizan un asterisco (*) en la plantilla. (`*ngIf`, `*ngFor`, `*ngSwitch`)
 
+- **Directivas de Atributo:** Estas directivas alteran la apariencia o el comportamiento de un elemento   DOM existente. No cambian la estructura del DOM, sino que modifican el comportamiento o el estilo de   los elementos. (`[ngClass]`, `[ngStyle]`)
 ```typescript
-@Injectable({
-  providedIn: 'root'
-})
-export class DataService {
-  private apiUrl = 'https://api.example.com/data';
-
-  constructor(private http: HttpClient) { }
-
-  getData(): Observable<any> {
-    return this.http.get<any>(this.apiUrl);
-  }
-}
-
- constructor(private dataService: DataService) { }
-
-  ngOnInit(): void {
-    this.dataService.getData().subscribe(response => {
-      this.data = response;
-    });
-  }
-
+export class AppComponent { 
+isActive = true;
+ }
+```
+```typescript
+<div [ngClass]="{ 'active': isActive, 'inactive': !isActive }">
+ This is a test div. 
+ </div>
 ```
 
--  **Interceptors**: Los interceptores permiten modificar las solicitudes y respuestas HTTP  globalmente. Puedes usarlos para agregar encabezados, manejar errores globalmente, o hacer  otros ajustes:
+```typescript
+<div [ngStyle]="{ 'color': isActive ? 'green' : 'red', 'font-size': '20px' }">
+ This is a test div. 
+ </div>
+```
 
-### Directivas  
+### Plantillas y Enlace de Datos (Templates y Data Binding)
 
-Una directiva es una clase con un decorador que permite manipular el DOM (Document Object Model) y alterar la apariencia o el comportamiento de los elementos HTML. Las directivas permiten agregar comportamiento a los elementos de la vista y se pueden clasificar en tres tipos principales:
+Data Binding en Angular permite sincronizar los datos entre el componente y la vista. Existen tres tipos principales:
 
-> Decorador: @Component,  Se usa para crear una nueva vista con HTML y lógica asociada.
+**Data Binding**
 
-> Directivas Estructurales: Estas directivas alteran el diseño del DOM al agregar o eliminar elementos   HTML. Utilizan un asterisco (*) en la plantilla. *ngIf, *ngFor
+- **Interpolación**: Permite insertar valores de propiedades del componente en el template.
+```typescript
+export class AppComponent {
+  title = 'Mi Aplicación Angular';
+  }
 
-> Directivas de Atributo : Estas directivas alteran la apariencia o el comportamiento de un elemento   DOM existente. No cambian la estructura del DOM, sino que modifican el comportamiento o el estilo de   los elementos. [ngClass],  [ngStyle]
+  <!-- app.component.html -->
+  <h1>{{ title }}</h1>
 
-### PIPES   
+```
+- **Property Binding:** Se utiliza para enlazar una propiedad del componente a un atributo HTML. Se usa la sintaxis [attribute]="expression".
+
+```typescript
+   // app.component.ts
+   export class AppComponent {
+    imageUrl = 'https://example.com/image.jpg';
+  }
+
+  <img [src]="imageUrl" alt="Example Image">
+  ```
+  ```typescript
+  
+<div [class.active]="isActive">
+  Contenido
+</div>
+
+<div [class]="textoColor"> Contenido </div>
+  ```
+
+
+- **Event Binding :** Se utiliza para manejar eventos del usuario, como clics, cambios, etc. Se usa la sintaxis (event)="handler".
+
+```typescript
+  // app.component.ts
+   export class AppComponent {
+   onClick() {
+    alert('Button clicked!');
+   }
+  }
+  
+  <!-- app.component.html -->
+<button (click)="onClick()">Click Me</button>
+
+```
+  
+- **Two-Way Binding:** Permite la sincronización bidireccional entre una propiedad del componente y un elemento del DOM. Se usa la sintaxis [(ngModel)]="property".
+```typescript
+     export class AppComponent {
+     name = '';
+     }
+
+<!-- app.component.html -->
+<input [(ngModel)]="name" placeholder="Enter your name">
+<p>Hello, {{ name }}!</p>
+```
+
+**PIPES**   
+
 Los pipes (o "tuberías") son una característica que permite transformar datos en plantillas. Los pipes toman un valor de entrada, lo transforman de alguna manera, y luego muestran el valor transformado en la vista. Son útiles para formatear datos de manera simple y concisa.
 
-1) Pipes Incorporados: ofrece varios pipes incorporados para realizar transformaciones comunes  de datos. 
+- **Pipes Incorporados:** ofrece varios pipes incorporados para realizar transformaciones comunes  de datos. 
 
 ```typescript
 - {{ fecha | date:'shortDate' }}
@@ -196,22 +165,19 @@ Los pipes (o "tuberías") son una característica que permite transformar datos 
 ```
 
 
-2) Pipes Personalizados: Puedes crear tus propios pipes para realizar transformaciones específicas que no están cubiertas por los pipes incorporados. 
+- **Pipes Personalizados:** Puedes crear tus propios pipes para realizar transformaciones específicas que no están cubiertas por los pipes incorporados. 
  
--  ng generate pipe nombre
+   - ng generate pipe nombre
 
 
-### Enrutamiento 
+### ENRUTAMIENTO
 Permite a los usuarios cambiar de una vista a otra sin recargar la página completa.
 ```typescript
-
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'about', component: AboutComponent },
   { path: '**', component: NotFoundComponent }  
 ];
-
-
 ```
 
 1) **RouterOutlet**: Es donde se renderizarán los componentes basados en la ruta activa.
@@ -236,26 +202,93 @@ const routes: Routes = [
 ```
 ```typescript
 // recuperar parametro
-
-
 this.route.paramMap.subscribe(params => {
   const idProd = params.get('idProd');
   console.log(idProd); // Accede al parámetro de forma segura
 });
 
 ```
+### GUARD
 
-### Estructuras de Control
+Los **Guards** en Angular son funciones o clases especiales que se utilizan para controlar el acceso a rutas, permitiendo o denegando la navegación en función de ciertas condiciones. Son una capa de seguridad importante en las aplicaciones Angular.
 
-- Permiten manejar la lógica en las plantillas (HTML) y en el código TypeScript de los  componentes.
+1. **`CanActivate`** - Determina si un usuario puede acceder a una ruta específica. - Se ejecuta antes de cargar la ruta. - **Uso común**: Validar si el usuario está autenticado. 
 
-- *ngIf se usa para mostrar u ocultar elementos del DOM basado en una condición.
+2. **`CanActivateChild`** - Similar a `CanActivate`, pero se aplica a rutas hijas. - Protege rutas secundarias dentro de un módulo o componente padre.
 
-- *ngFor se usa para iterar sobre una colección y crear una instancia del elemento para cada    ítem en la colección.
+- ng generate guard auth
 
-- *ngSwitch se usa para mostrar un solo elemento entre varios posibles basados en una   expresión.
+```typescript
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthGuard implements CanActivate {
+  constructor(private router: Router) {}
+  canActivate(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    // Lógica de autenticación (simulada)
+    const isAuthenticated = false; 
+    if (isAuthenticated) {
+      return true;
+    } else {
+      this.router.navigate(['/login']);
+      return false;
+    }
+  }
+}
+```
+```typescript
+const routes: Routes = [
+  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'login', component: LoginComponent }
+];
 
-### Formulario 
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+```
+
+
+
+### SERVICIOS 
+
+Un servicio en Angular es una clase que está diseñada para proporcionar funcionalidades que pueden ser compartidas a lo largo de diferentes componentes y otras partes de la aplicación. Los servicios son una forma de organizar y estructurar la lógica de negocio y de acceso a datos de manera modular y reutilizable.
+
+
+```typescript
+@Injectable({
+  providedIn: 'root'
+})
+export class DataService {
+  private apiUrl = 'https://api.example.com/data';
+
+  constructor(private http: HttpClient) { }
+
+  getData(): Observable<any> {
+    return this.http.get<any>(this.apiUrl);
+  }
+}
+//componente.ts
+
+ constructor(private dataService: DataService) { }
+
+  ngOnInit(): void {
+    this.dataService.getData().subscribe(response => {
+      this.data = response;
+    });
+  }
+
+```
+
+ **INTERCEPTORES**: Los interceptores permiten modificar las solicitudes y respuestas HTTP  globalmente. Puedes usarlos para agregar encabezados, manejar errores globalmente, o hacer  otros ajustes:
+
+
+
+
+### FORMULARIO
 
 1) **FORMULARIO REACTIVO**: Permite manejar el estado del formulario y la validación de manera programática.
 
@@ -325,7 +358,6 @@ export class FormularioTemplateComponent {
 }
 
 //HTML 
-
 <form #form="ngForm" (ngSubmit)="onSubmit(form)">
   <div>
     <label for="nombre">Nombre:</label>
@@ -338,9 +370,6 @@ export class FormularioTemplateComponent {
 
   <button type="submit" [disabled]="form.invalid">Enviar</button>
 </form>
-
-
 ```
-
 
 
