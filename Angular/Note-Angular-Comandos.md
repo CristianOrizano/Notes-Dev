@@ -7,8 +7,9 @@
 - Angular Essentials
 - Angular DevTools
 
-2) **Comprobar que se haya instalado el Node en el comando de git**
+2) **Comprobar que se haya instalado el Node.js en el comando de git**
 
+- Instalar : https://nodejs.org/en/download
 - node -v
 - npm -v
 
