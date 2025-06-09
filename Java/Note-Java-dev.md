@@ -1,5 +1,21 @@
 # JAVA SPRING BOOT
 
+
+### Instalar Java (JDK)
+
+Spring Boot requiere Java 17 o superior (también funciona con Java 11).
+
+- Descargá e instalá el **JDK (Java Development Kit)** desde:
+  [https://adoptium.net](https://adoptium.net)
+
+Luego verificá que esté correctamente instalado ejecutando estos comandos en tu terminal o consola:
+
+ - java -version
+
+ Instalar un IDE
+ 
+ - IntelliJ IDEA (Community) 👉 https://www.jetbrains.com/idea/
+
 ### Dependencias Iniciales
 
 **- Spring Web**
