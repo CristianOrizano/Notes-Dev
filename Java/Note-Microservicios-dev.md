@@ -271,7 +271,7 @@ eureka:
 
 ### Multiples Instancias 
 
-Las múltiples instancias en Eureka son una práctica común en arquitecturas distribuidas y microservicios. Su propósito principal es garantizar escalabilidad, alta disponibilidad y tolerancia a fallos. Aquí tienes un desglose de sus beneficios y utilidad:
+Las múltiples instancias en Eureka son una práctica común en arquitecturas distribuidas y microservicios. Su propósito principal es garantizar escalabilidad, alta disponibilidad y tolerancia a fallos. El balanceo de carga es una técnica para distribuir equitativamente las solicitudes (requests) entre varios servidores o instancias de una aplicación. Aquí tienes un desglose de sus beneficios y utilidad:
 
 
 **. Escalabilidad**
