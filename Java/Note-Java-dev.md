@@ -463,9 +463,8 @@ Verificas que el resultado sea el esperado.
 
 `assertEquals(90, resultado);` 
 
-### 🔄 Pruebas de Integración
 
-#### 📌 ¿Qué es una prueba de integración?
+### **¿Qué es una prueba de integración?**
 
 Una **prueba de integración** verifica cómo interactúan varios componentes del sistema entre sí, como servicios, controladores, repositorios y configuración de Spring. A diferencia de las pruebas unitarias, aquí **no se aísla la lógica**, sino que se prueba el flujo real completo o parcialmente.
 
