@@ -324,3 +324,142 @@ Validar tokens (para asegurarte de que son válidos y no han expirado).
 ---
 
 
+
+# Testing con JUnit 5 y Mockito
+
+### 📌 ¿Qué es JUnit 5?
+
+**JUnit 5** es el framework moderno más utilizado para realizar **pruebas unitarias en Java**. Fue diseñado para reemplazar JUnit 4 con una arquitectura más modular, flexible y potente.
+
+JUnit 5 está compuesto por tres subproyectos principales:
+
+- **JUnit Platform**: Es la base sobre la que se ejecutan los tests. Permite integrar IDEs, herramientas de build (como Maven o Gradle) y otros frameworks.
+- **JUnit Jupiter**: Contiene la API y las anotaciones para escribir y ejecutar pruebas (como `@Test`, `@BeforeEach`, etc.). Es la parte que realmente usas al escribir tests.
+- **JUnit Vintage**: Permite ejecutar pruebas escritas con JUnit 3 o 4 dentro de JUnit 5, útil para mantener compatibilidad con código antiguo.
+
+🎯 **Propósito de JUnit 5**:  
+Permitir escribir, organizar y ejecutar pruebas unitarias de forma clara, moderna y extensible en proyectos Java.
+
+✅ Facilita:
+- Detectar errores de forma temprana.
+- Refactorizar con seguridad.
+- Automatizar validaciones en el ciclo de desarrollo.
+- 
+### 🧩 Anotaciones básicas de JUnit 5
+
+- **@Test**: Marca un método como un caso de prueba. Es la anotación principal en una prueba unitaria.
+
+- **@BeforeEach**: Se ejecuta antes de cada test. Se usa para preparar el entorno o inicializar objetos necesarios.
+
+- **@AfterEach**: Se ejecuta después de cada test. Útil para limpiar recursos utilizados durante la prueba.
+
+- **@BeforeAll**: Se ejecuta una sola vez antes de todos los métodos de prueba de la clase. El método debe ser estático.
+
+- **@AfterAll**: Se ejecuta una sola vez después de todos los métodos de prueba de la clase. También debe ser estático.
+
+- **@DisplayName**: Permite asignar un nombre descriptivo y legible a una prueba, útil para reportes o en el IDE.
+
+- **@Disabled**: Desactiva temporalmente una prueba o clase de prueba, evitando su ejecución.
+
+### ✅ Métodos de aserción en JUnit 5
+
+Los métodos de aserción se utilizan para verificar que los resultados obtenidos sean los esperados durante una prueba unitaria.
+
+- **assertEquals(expected, actual)**: Verifica que dos valores sean iguales.
+
+- **assertNotEquals(expected, actual)**: Verifica que dos valores no sean iguales.
+
+- **assertTrue(condition)**: Verifica que una condición sea verdadera.
+
+- **assertFalse(condition)**: Verifica que una condición sea falsa.
+
+- **assertNull(object)**: Verifica que un objeto sea `null`.
+
+- **assertNotNull(object)**: Verifica que un objeto no sea `null`.
+
+
+### ✅ Mockito - Mockeo de dependencias
+
+#### 📌 ¿Qué es un mock?
+
+Un **mock** es un objeto simulado que imita el comportamiento de una clase real. Se usa en pruebas unitarias para **aislar la lógica de la clase que se está probando**, evitando que interactúe con dependencias reales como bases de datos, servicios externos o APIs.
+
+#### 🎯 ¿Por qué se usa?
+
+- Para **controlar el comportamiento** de dependencias externas.
+- Para **evitar efectos secundarios**, como escribir en bases de datos o hacer llamadas HTTP reales.
+- Para **verificar interacciones** entre clases.
+- Para hacer pruebas **más rápidas y confiables**, sin depender del entorno.
+
+---
+
+#### 🧩 Anotaciones principales de Mockito
+
+- **@Mock**: Crea un objeto simulado (mock) de una clase o interfaz.
+
+- **@InjectMocks**: Inyecta los objetos simulados (marcados con `@Mock`) en la clase que se desea probar.
+
+- **@Spy**: Crea un objeto parcialmente simulado, que ejecuta métodos reales salvo que se especifiquen comportamientos.
+
+---
+
+#### ⚙️ Comportamiento simulado
+
+- **when(...).thenReturn(...)**: Define qué debe devolver un método del mock cuando es llamado con ciertos parámetros.
+
+- **when(...).thenThrow(...)**: Indica que se debe lanzar una excepción cuando se llame al método con ciertos parámetros.
+
+---
+
+#### 🔍 Verificación de comportamiento
+
+- **verify(...)**: Verifica que un método del mock haya sido invocado.
+
+- **verify(..., times(n))**: Verifica que el método haya sido invocado exactamente n veces.
+
+- **verify(..., never())**: Verifica que el método **no haya sido invocado**.
+
+
+
+### **¿Qué es una prueba unitaria?**
+
+Una **prueba unitaria** (unit test) es una prueba que valida el **comportamiento de una unidad individual de código**, como un método o función, de forma **aislada** del resto del sistema.
+
+#### **Beneficios del Testing (pruebas unitarias)**
+
+1.  ✅ **Detección temprana de errores**  
+    Puedes detectar bugs desde el principio, antes de que afecten a producción.
+    
+2.  🛠️ **Facilita el refactor**  
+    Puedes cambiar la implementación interna de una clase y verificar que sigue funcionando, si los tests pasan.
+    
+3.  📈 **Mejora la calidad del código**  
+    Te obliga a pensar en cómo dividir la lógica y mantener las funciones simples y testeables.
+    
+4.  🚦 **Sirve como documentación viva**  
+    Un test bien escrito dice claramente qué se espera de una función o clase.
+    
+5.  🔄 **Permite regresión automática**  
+    Cada vez que haces un cambio, ejecutas los tests para asegurarte de no romper lo anterior.
+
+#### **Estructura de una prueba unitaria: AAA**
+
+Esto se conoce como el patrón **AAA**:
+
+#### 1. **Arrange (Preparar)**
+Configuras el entorno del test. Creas los objetos necesarios, defines los valores de entrada y, si usas mocks, configuras su comportamiento.
+
+`int  precio  =  100; int  descuento  =  10;` 
+
+#### 2. **Act (Actuar)**
+
+Llamas al método o función que estás testeando.
+
+`int  resultado  = calcularDescuento(precio, descuento);` 
+
+#### 3. **Assert (Afirmar)**
+
+Verificas que el resultado sea el esperado.
+
+`assertEquals(90, resultado);` 
+
