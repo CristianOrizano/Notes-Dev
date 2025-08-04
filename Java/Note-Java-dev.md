@@ -463,3 +463,50 @@ Verificas que el resultado sea el esperado.
 
 `assertEquals(90, resultado);` 
 
+### 🔄 Pruebas de Integración
+
+#### 📌 ¿Qué es una prueba de integración?
+
+Una **prueba de integración** verifica cómo interactúan varios componentes del sistema entre sí, como servicios, controladores, repositorios y configuración de Spring. A diferencia de las pruebas unitarias, aquí **no se aísla la lógica**, sino que se prueba el flujo real completo o parcialmente.
+
+---
+
+#### 🎯 ¿Por qué son importantes?
+
+- Verifican que **la configuración de Spring esté correcta**.
+- Aseguran que los **beans se inyecten adecuadamente**.
+- Validan la **integración real con la base de datos, servicios REST o seguridad**.
+- Detectan errores que no aparecen en pruebas unitarias, como problemas de contexto o wiring.
+
+---
+
+#### 🧩 Anotaciones clave en pruebas de integración
+
+- **@SpringBootTest**: Carga todo el contexto de Spring. Se usa para probar la aplicación completa o flujos complejos de varios componentes.
+
+- **@WebMvcTest**: Carga solo los componentes relacionados con la capa web (controladores, filtros). Ideal para probar endpoints REST sin cargar la lógica de negocio.
+
+- **@DataJpaTest**: Se usa para probar la capa de repositorios. Carga únicamente los beans relacionados a JPA, usando por defecto una base de datos en memoria (como H2).
+
+- **@AutoConfigureMockMvc**: Permite inyectar y usar `MockMvc` para simular peticiones HTTP.
+
+- **@MockBean**: Crea e inyecta un mock dentro del contexto de Spring, reemplazando el bean real por uno simulado.
+
+---
+
+#### 🛠 Herramientas comunes
+
+- **MockMvc**: Permite simular peticiones HTTP a controladores sin levantar un servidor real.
+- **ObjectMapper**: Se usa para convertir objetos a JSON y viceversa.
+- **H2** (u otra BD en memoria): Se usa para pruebas reales de base de datos sin tocar datos de producción.
+
+
+
+
+
+
+
+
+
+
+
