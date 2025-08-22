@@ -2,11 +2,11 @@
 
 ## VPC (Virtual Private Cloud)
 
-### 📌 ¿Qué es?
+**¿Qué es?**
 Una **VPC es tu propia red privada dentro de AWS**.  
 Es como tu “barrio exclusivo” 🏡 en la nube donde van a vivir tus recursos (EC2, RDS, Lambda, etc.), con reglas de **direcciones IP, seguridad y conectividad** que tú controlas.
 
-### 📌 ¿Para qué sirve?
+**¿Para qué sirve?**
 1.  **Aislar tus recursos**    
     -   Evita que tus servidores y bases de datos estén “sueltos” en Internet.      
     -   Cada proyecto/empresa suele tener su propia VPC.
@@ -159,7 +159,7 @@ Es como un “todo en uno” para frontend + backend ligero.
 
 **AWS Amplify** es un servicio de AWS que **facilita desarrollar, desplegar y escalar aplicaciones web y móviles fullstack**, enfocándose en proyectos donde **no quieres preocuparte por servidores tradicionales**.
 
-### **Qué hace**
+**Qué hace**
 
 1.  **Frontend Hosting**
     
