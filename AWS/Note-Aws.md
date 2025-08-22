@@ -29,7 +29,7 @@ Es como tu “barrio exclusivo” 🏡 en la nube donde van a vivir tus recursos
     Y esto está ligado a si el recurso está en **subnet pública o privada**.
     
 
-## **AWS CloudWatch**
+## AWS CloudWatch
 
 En **AWS**, **CloudWatch** es el servicio de **monitoreo y observabilidad**.  
 
@@ -54,13 +54,13 @@ En **AWS CloudWatch** se guardan:
     -   Ejemplo: si una Lambda falla más de 5 veces en 1 minuto → manda alerta.
 
 
-## **IAM **
+## IAM
 
-### 🔑 ¿Qué es IAM?
+**¿Qué es IAM?**
 
 Es el servicio de **gestión de usuarios, permisos y accesos** en AWS.  Con IAM decides **quién puede entrar** a tu cuenta de AWS y **qué puede hacer**.
 
-### 🧩 Puntos clave
+**Puntos clave**
 
 -   **Usuarios** → personas o aplicaciones que necesitan acceder (tú, tu equipo, un bot).    
 -   **Grupos** → conjunto de usuarios con los mismos permisos.  
