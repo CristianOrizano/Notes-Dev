@@ -187,6 +187,73 @@ Puedes **añadir un backend** con servicios serverless, **Servicios serverless**
 -   Frontends que necesitan un backend **serverless rápido** sin complicaciones.
 -   Equipos pequeños o junior que quieren enfocarse en **UI y lógica de negocio básica**.
 
+## ECS (Elastic Container Service)
+
+**¿Qué es ECS?**
+Amazon ECS es un **servicio de AWS para ejecutar y administrar contenedores Docker**.
+
+En vez de que tú levantes manualmente contenedores en una máquina, ECS se encarga de:
+
+-   Ejecutarlos.    
+-   Escalarlos (más instancias si hay mucho tráfico).    
+-   Reiniciarlos si fallan.    
+-   Balancear tráfico entre ellos.
+
+**¿Para qué se usa ECS?**
+Se usa cuando quieres **desplegar aplicaciones en contenedores** (ej. tu backend en Docker) sin tener que preocuparte de la infraestructura baja.
+Algunos usos:
+1.  **Aplicaciones web** (por ejemplo, tu API en Express o .NET corriendo en un contenedor).    
+2.  **Microservicios** (cada microservicio corre en su propio contenedor).    
+3.  **Jobs en segundo plano** (procesamiento de colas, tareas periódicas).    
+4.  **Aplicaciones que escalan** (cuando necesitas que AWS levante más contenedores automáticamente según el tráfico).
+
+ **Flujo completo de ECS con ECR**
+1.  **Crear imagen Docker**
+    -   Empaquetas tu aplicación (Node.js, Java, etc.) en un contenedor.        
+    -   Ejemplo: `docker build -t miapp .`
+        
+2.  **Subir imagen a ECR (Elastic Container Registry)**   
+    -   Creas un repositorio en ECR.        
+    -   Haces login a ECR con Docker (`aws ecr get-login-password ...`).        
+    -   Etiquetas la imagen y la subes:        
+        `docker tag miapp:latest <tu-cuenta>.dkr.ecr.<region>.amazonaws.com/miapp:latest
+        docker push <tu-cuenta>.dkr.ecr.<region>.amazonaws.com/miapp:latest` 
+        
+3.  **Crear un Cluster en ECS**    
+    -   Defines si será con **EC2** (máquinas administradas por ti) o **Fargate** (serverless).  Esa elección es exactamente **dónde va a correr tu contenedor**     
+   
+    -   Ejemplo: “ClusterProducción”.
+        
+4.  **Definir Task Definition**    
+    -   Aquí dices:        
+        -   Usa la imagen que está en **ECR**.            
+        -   Qué puertos expone.            
+        -   Cuánto CPU y memoria asignar.            
+        -   Variables de entorno.
+             
+    👉 La **Task Definition** es la receta que ECS usará para ejecutar tu contenedor.
+    
+5.  **Crear un Service**    
+    -   Dices cuántas **Tasks** (contenedores) quieres mantener corriendo.        
+    -   Ejemplo: mantener siempre 2 instancias de `miapp`.        
+    -   ECS automáticamente reemplaza tareas caídas.
+        
+6.  **Configurar Networking (VPC, Subnets, Security Groups)**   
+    -   Aquí decides si tu app es pública o privada.        
+    -   Si es pública → necesitas un **Load Balancer (ALB o NLB)**.        
+    -   Si es interna → basta con Security Groups + VPC.
+        
+7.  **ECS ejecuta los contenedores**    
+    -   ECS baja tu imagen desde **ECR**.        
+    -   Crea las tasks dentro del cluster (en Fargate o EC2).
+        
+8.  **Escalamiento**    
+    -   Puedes configurar auto scaling (basado en CPU, memoria o requests).        
+    -   Ejemplo: si el tráfico sube, de 2 tasks pasa a 5 tasks automáticamente.
+
+
+
+
 ## AWS Lambda
 
 **AWS Lambda** es un servicio de **computación serverless** que te permite **ejecutar código sin aprovisionar ni administrar servidores**.  
