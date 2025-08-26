@@ -190,6 +190,7 @@ Puedes **añadir un backend** con servicios serverless, **Servicios serverless**
 ## ECS (Elastic Container Service)
 
 **¿Qué es ECS?**
+
 Amazon ECS es un **servicio de AWS para ejecutar y administrar contenedores Docker**.
 
 En vez de que tú levantes manualmente contenedores en una máquina, ECS se encarga de:
@@ -200,6 +201,7 @@ En vez de que tú levantes manualmente contenedores en una máquina, ECS se enca
 -   Balancear tráfico entre ellos.
 
 **¿Para qué se usa ECS?**
+
 Se usa cuando quieres **desplegar aplicaciones en contenedores** (ej. tu backend en Docker) sin tener que preocuparte de la infraestructura baja.
 Algunos usos:
 1.  **Aplicaciones web** (por ejemplo, tu API en Express o .NET corriendo en un contenedor).    
