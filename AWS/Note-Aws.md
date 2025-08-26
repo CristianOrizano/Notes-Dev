@@ -283,7 +283,7 @@ Pagas **solo por el tiempo de ejecución** y la cantidad de invocaciones.
    - Responder a eventos de DynamoDB, Kinesis, SQS, SNS, etc.
 
 
-### ✅ Ventajas
+**Ventajas**
 
 - **Escalado automático** (desde 1 hasta miles de ejecuciones simultáneas).  
 - **Pago por uso**: solo pagas por los milisegundos de ejecución.  
@@ -291,7 +291,7 @@ Pagas **solo por el tiempo de ejecución** y la cantidad de invocaciones.
 - Ideal para **microservicios y funciones pequeñas**.  
 
 
-### 🎯 Resumen
+**Resumen**
 
 AWS Lambda = **ejecutar funciones bajo demanda** sin servidores.  
 Ideal para **APIs, automatizaciones, procesamiento de datos y microservicios**.  
@@ -322,14 +322,14 @@ Pagas **solo por las llamadas a la API y la transferencia de datos**.
 4. **Transformación de datos**  
    - Cambiar formatos de request o response, agregar headers, validar payloads.
 
-### ✅ Ventajas
+**Ventajas**
 
 - **Escalado automático**: soporta miles de solicitudes simultáneas.  
 - **Pago por uso**: solo pagas por llamadas a la API y transferencia de datos.  
 - **Integración nativa con AWS**: Lambda, DynamoDB, S3, EventBridge, etc.  
 - **Gestión centralizada de endpoints**: control de tráfico, versiones y stages.
 
-### 🎯 Resumen
+**Resumen**
 AWS API Gateway = **exponer y gestionar APIs de manera serverless**, integrando microservicios y funciones Lambda, con **seguridad, escalado y monitoreo automático**.  
 Ideal para **APIs públicas o internas, microservicios y arquitecturas serverless**.
 
