@@ -262,13 +262,13 @@ Algunos usos:
 Pagas **solo por el tiempo de ejecución** y la cantidad de invocaciones.
 
 
-### ⚙️ ¿Cómo funciona?
+**¿Cómo funciona?**
 
 - Tú subes una función (en Node.js, Python, Java, C#, Go, etc.).
 - Lambda ejecuta esa función **cuando se activa un evento** (HTTP request, archivo en S3, mensaje en cola, etc.).
 - No necesitas preocuparte de infraestructura: **AWS administra escalado, disponibilidad y servidores.**
 
-### 🚀 Casos de uso comunes
+**Casos de uso comunes**
 
 1. **APIs Serverless**
    - Con **API Gateway + Lambda**, puedes crear APIs REST o GraphQL sin servidores.
@@ -302,13 +302,13 @@ Se paga solo por invocación y tiempo de uso.
 **AWS API Gateway** es un servicio totalmente gestionado que te permite **exponer APIs seguras y escalables** para tus aplicaciones, ya sea REST, HTTP o WebSocket, **sin necesidad de administrar servidores**.  
 Pagas **solo por las llamadas a la API y la transferencia de datos**.
 
-### ⚙️ ¿Cómo funciona?
+**¿Cómo funciona?**
 
 - Creas una API con rutas (endpoints) que exponen tus microservicios o funciones Lambda.  
 - Cada endpoint puede integrarse con **Lambda, HTTP/HTTPS, otros servicios de AWS o mock responses**.  
 - API Gateway maneja **enrutamiento, seguridad, escalado y monitoreo** automáticamente.
 
-### 🚀 Casos de uso comunes
+**Casos de uso comunes**
 
 1. **APIs REST o HTTP para microservicios**  
    - Exponer endpoints de tus microservicios internos o serverless.
