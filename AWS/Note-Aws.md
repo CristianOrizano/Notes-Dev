@@ -334,3 +334,145 @@ AWS API Gateway = **exponer y gestionar APIs de manera serverless**, integrando 
 Ideal para **APIs públicas o internas, microservicios y arquitecturas serverless**.
 
 
+
+## IIS (Internet Information Services)
+IIS, o Internet Information Services, es un servidor web desarrollado por Microsoft que se incluye en los sistemas operativos Windows para alojar y gestionar sitios web, aplicaciones y servicios en la red.
+
+**🔹 1. Alojar sitios web**
+Ejemplo:
+Tienes un sitio HTML + CSS + JS estático o incluso un WordPress (PHP).
+Lo subes a IIS → IIS sirve esos archivos al navegador de cualquier usuario que entre con http://miempresa.com.
+Aquí el navegador pide un recurso (index.html) y IIS lo entrega.
+
+**🔹 2. Alojar aplicaciones web**
+
+Ejemplo:
+Una aplicación en ASP.NET MVC o WebForms (.NET Framework).
+La publicas en IIS.
+IIS recibe las peticiones, levanta el pipeline de ASP.NET, procesa controladores, vistas, y responde con HTML/JSON.
+Similar a como Tomcat aloja apps Java (Spring, JSP, Servlets).
+
+**🔹 3. Alojar servicios en la red**
+
+Ejemplo:
+Un servicio SOAP (WCF) o servicio REST API (ASP.NET Web API o ASP.NET Core con hosting en IIS).
+IIS maneja el ciclo de vida, las conexiones concurrentes y hasta balancea tráfico.
+También puede servir FTP, SMTP (correo), WebDAV, etc.
+
+---
+
+En .NET Framework clásico (antes de .NET Core), IIS era obligatorio porque actuaba como el servidor web que alojaba directamente la aplicación.
+
+En cambio, en .NET Core / .NET 5+, la aplicación ya trae su propio servidor embebido (Kestrel). Entonces, IIS ya no es el "servidor real", sino que se usa principalmente como:
+
+🔹 Reverse Proxy delante de Kestrel:
+- IIS recibe la petición HTTP/HTTPS.
+- La redirige a tu aplicación .NET Core corriendo en Kestrel.
+- De esa forma IIS aporta ventajas: SSL, compresión, balanceo básico, integración con Windows Authentication, logging, etc.
+
+## Proxy
+
+### **Proxy (Forward Proxy)**
+Un proxy “normal” es un servidor intermedio que se ubica del lado del cliente.
+
+**El cliente** le pide algo al proxy → el proxy lo reenvía al servidor.
+**El servidor** cree que la petición vino del proxy, no del cliente.
+
+👉 Ejemplo clásico:
+
+Tú estás en una oficina y todas las computadoras navegan a Internet a través de un proxy corporativo.
+
+Ese proxy puede filtrar, bloquear sitios o almacenar caché de respuestas.
+
+**📌 Se usa principalmente para:**
+
+- Control de acceso a Internet.
+- Ocultar al cliente real.
+- Mejorar seguridad y performance (con caché).
+
+### **Reverse Proxy**
+
+Un reverse proxy está del lado del servidor.
+
+**El cliente** pide algo a midominio.com → esa petición llega primero al reverse proxy.
+**El reverse** proxy decide a qué backend real enviarla (Spring Boot, .NET Core, etc.).
+
+👉 Ejemplo con Nginx o IIS:
+
+Tu backend en Spring Boot escucha en localhost:8091.
+
+Pero el cliente nunca accede directo al puerto 8091.
+
+El cliente pide https://api.miempresa.com → Nginx/IIS recibe esa petición → la reenvía internamente al backend en localhost:8091.
+
+**📌 Se usa principalmente para:**
+
+- Terminar conexiones HTTPS/SSL (el proxy maneja el certificado).
+- Balancear carga (enviar tráfico a múltiples instancias).
+- Hacer de “única puerta de entrada” a varios servicios backend.
+- Seguridad (ocultar detalles del backend real).
+
+**🔑 Diferencia corta:**
+
+- Proxy normal: protege/representa al cliente.
+- Reverse proxy: protege/representa al servidor.
+
+## HTTP y HTTPS
+
+Cuando ves una dirección que empieza con **HTTP** (ejemplo: `http://miapi.com`), significa que la comunicación entre tu computadora y el servidor **no va cifrada**.
+
+🔹 **Qué significa no estar cifrada**
+
+-   Todo lo que envías (contraseñas, correos, tokens, etc.) viaja como “texto claro”.    
+-   Si alguien se mete en el medio (por ejemplo, alguien conectado al mismo WiFi que tú), puede **leer y robar** lo que estás enviando.   
+-   A esto se le llama un **ataque de “man-in-the-middle”** (hombre en el medio).
+    
+🔹 **Qué pasa con HTTPS**  
+
+Cuando usas **HTTPS** (ejemplo: `https://miapi.com`), el servidor tiene un **certificado SSL/TLS**.
+-   Ese certificado permite **cifrar la comunicación** entre tu cliente y el servidor.    
+-   Aunque alguien intercepte los datos, verá solo un montón de caracteres sin sentido.    
+-   Además, el certificado prueba que estás hablando con el servidor correcto y no con un impostor.
+    
+👉 En simple:
+-   **HTTP** = cualquiera puede mirar lo que mandas.    
+-   **HTTPS** = tus datos viajan en una “caja fuerte” que solo tú y el servidor pueden abrir.
+
+
+## Certificados SSL/TLS
+
+### 1. Concepto
+- Un **certificado SSL/TLS** es un archivo digital emitido por una **Autoridad Certificadora (CA)**.  
+- Se usa para habilitar conexiones seguras en **HTTPS**.  
+- Aunque se dice "SSL", hoy en día el protocolo real es **TLS** (SSL está obsoleto).  
+
+### 2. Funciones principales
+1. **Cifrado** → protege los datos entre cliente y servidor.  
+2. **Autenticación** → asegura que el servidor es quien dice ser.  
+3. **Integridad** → evita que los datos sean modificados en tránsito.  
+
+### 3. Qué contienen
+- Clave pública del servidor.  
+- Nombre del dominio (ej. `api.midominio.com`).  
+- Firma digital de la CA.  
+- Fechas de validez.  
+
+### 4. Tipos de certificados
+- **DV (Domain Validation):** valida solo el dominio.  
+- **OV (Organization Validation):** valida dominio + empresa.  
+- **EV (Extended Validation):** validación más estricta (barra verde en algunos navegadores).  
+
+### 5. Dónde se usan
+- Se instalan en:
+  - **Servidores web directos** (Apache, Nginx, IIS, Tomcat, Kestrel).  
+  - **Reverse proxies / load balancers** (Nginx, AWS ALB, Cloudflare).  
+
+### 6. Fuentes comunes
+- **Gratuitos:** Let's Encrypt, AWS ACM (si usas AWS).  
+- **De pago:** DigiCert, GoDaddy, Sectigo, etc.  
+
+### 7. Importante
+- "Certificado SSL" y "Certificado TLS" → **es lo mismo**.  
+- Hoy en día el término correcto es **Certificado TLS**,  
+  pero en la práctica se sigue diciendo "SSL" o "SSL/TLS".
+
